@@ -82,7 +82,7 @@
             </div>
         </div>
     </form>
-    {{ ckeditor.load() }}
+    {{ ckeditor.load(custom_url = url_for('static', filename = 'ckeditor/ckeditor.js')) }}
     {{ ckeditor.config(name='content')}}
     <!-- Modal Contetn here -->
     <div class="modal fade" id="newCourse" tabindex="-1" aria-labelledby="newCourseModal" aria-hidden="true">
