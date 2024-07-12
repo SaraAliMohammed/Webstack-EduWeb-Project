@@ -130,3 +130,8 @@ class NewCourseForm(FlaskForm):
             raise ValidationError(
                 "Course name already exists! Please choose a different one"
             )
+
+
+class LessonUpdateForm(NewLessonForm):
+    thumbnail = FileField("Thumbnail", validators=[FileAllowed(["jpg", "png"])])
+    submit = SubmitField("Update")
