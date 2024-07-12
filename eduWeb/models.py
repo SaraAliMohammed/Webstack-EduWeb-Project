@@ -47,10 +47,10 @@ class Lesson(db.Model):
 class Course(db.Model):
 	"""Representation of Course Class """
 	id = db.Column(db.Integer, primary_key=True)
-	title = db.Column(db.String(50), nullable=False, unique=True)
+	title = db.Column(db.String(50), unique=True, nullable=False)
 	description = db.Column(db.String(150), nullable=False)
-	icon = db.Column(db.String(20), nullable=False, default='default_icon.jpg')
-	lessons = db.relationship("Lesson", backref='course_name', lazy=True)
+	icon = db.Column(db.String(20), nullable=False, default="default_icon.jpg")
+	lessons = db.relationship("Lesson", backref="course_name", lazy=True)
 
 	def __repr__(self):
 		"""String representation of Course object"""
