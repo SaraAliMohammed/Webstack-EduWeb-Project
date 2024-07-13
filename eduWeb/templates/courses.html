@@ -5,7 +5,7 @@
     <div class="container p-5">
         <h3 class="text-center text-secondary" id='learn'>Courses</h3>
         <div class="row">
-            {% for course in courses %}
+            {% for course in courses.items %}
             <div class="col-sm-12 col-md-6 col-lg-4 p-3 d-flex align-items-stretch">
                 <a href="{{url_for('course', course_title=course.title)}}" class="text-decoration-none">
                     <div class="card bg-dark text-light h-100">
@@ -21,6 +21,26 @@
                 </a>
             </div>
             {% endfor %}
+             <!-- pagination links -->
+             <nav class="mt-5" aria-label="...">
+                <ul class="pagination" style="display: flex; justify-content: flex-end">
+                    {% for page_num in courses.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+                    {% if page_num %}
+                    {% if courses.page == page_num %}
+                    <li class="page-item active">
+                        <a href="{{url_for('courses', page=page_num)}}" class="page-link">{{page_num}}</a>
+                    </li>
+                    {%else%}
+                    <li class="page-item">
+                        <a href="{{url_for('courses', page=page_num)}}" class="page-link">{{page_num}}</a>
+                    </li>
+                    {%endif%}
+                    {% else %}
+                    <span class="mx-2">...</span>
+                    {% endif %}
+                    {% endfor %}
+                </ul>
+            </nav>
         </div>
     </div>
 </section>

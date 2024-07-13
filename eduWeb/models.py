@@ -2,8 +2,10 @@
 Holds eduWeb Classes	
 """
 from datetime import datetime
-from eduWeb import db, login_manager
+from eduWeb import db, login_manager, app
 from flask_login import UserMixin
+from itsdangerous import URLSafeTimedSerializer as Serializer
+
 
 @login_manager.user_loader
 def load_user(user_id):
