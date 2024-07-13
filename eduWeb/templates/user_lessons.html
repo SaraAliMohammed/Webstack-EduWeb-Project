@@ -26,13 +26,13 @@
                             <a href="{{url_for('lessons.update_lesson', lesson_slug = lesson.slug, course = lesson.course_name.title)}}"
                                 class="btn btn-info btn-sm m-1">Update</a>
                             <button class="btn btn-danger btn-sm m-1" data-bs-toggle="modal"
-                                data-bs-target="#deleteModal"> Delete </button>
+                                data-bs-target="#deleteModal{{ lesson.id }}"> Delete </button>
                         </div>
                     </div>
                 </div>
             </div>
             <!-- Delete Modal -->
-            <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel"
+            <div class="modal fade" id="deleteModal{{ lesson.id }}" tabindex="-1" aria-labelledby="deleteModalLabel"
                 aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">

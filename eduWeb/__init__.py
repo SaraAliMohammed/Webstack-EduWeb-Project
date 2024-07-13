@@ -15,7 +15,7 @@ from eduWeb.config import Config
 
 db = SQLAlchemy()
 bcrypt = Bcrypt()
-migrate = Migrate(db)
+migrate = Migrate()
 login_manager = LoginManager()
 ckeditor = CKEditor()
 modal = Modal()
@@ -30,6 +30,7 @@ def create_app(config_calss=Config):
 
 	db.init_app(app)
 	bcrypt.init_app(app)
+	migrate.init_app(app, db)
 	login_manager.init_app(app)
 	ckeditor.init_app(app)
 	modal.init_app(app)

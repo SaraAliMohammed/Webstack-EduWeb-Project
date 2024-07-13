@@ -25,6 +25,7 @@ class User(db.Model, UserMixin):
 	password = db.Column(db.String(60), nullable=False)
 	bio = db.Column(db.Text, nullable=True)
 	lessons = db.relationship("Lesson", backref='author', lazy=True)
+	# courses = db.relationship("Course", backref="author", lazy=True)
 
 	def __init__(self, **kwargs):
 		''' Intialization method'''
@@ -81,6 +82,7 @@ class Course(db.Model):
 	title = db.Column(db.String(50), unique=True, nullable=False)
 	description = db.Column(db.String(150), nullable=False)
 	icon = db.Column(db.String(20), nullable=False, default="default_icon.jpg")
+	# user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 	lessons = db.relationship("Lesson", backref="course_name", lazy=True)
 
 	def __init__(self, **kwargs):

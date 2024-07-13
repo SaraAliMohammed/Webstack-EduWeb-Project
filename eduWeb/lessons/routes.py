@@ -46,6 +46,9 @@ def new_lesson():
             )
         lesson_slug = str(new_lesson_form.slug.data).replace(" ", "-")
         course = new_lesson_form.course.data
+        if course.lessons and course.lessons[0].author != current_user:
+            flash("You are not allowed to add lessons to this course as you are not the author.", "danger")
+            return redirect(url_for("users.dashboard"))
         lesson = Lesson(
             title=new_lesson_form.title.data,
             content=new_lesson_form.content.data,
@@ -57,7 +60,7 @@ def new_lesson():
         db.session.add(lesson)
         db.session.commit()
         flash("Your lesson has been created!", "success")
-        return redirect(url_for("lessons.new_lesson"))
+        return redirect(url_for("users.dashboard"))
 
     elif form == "new_course_form" and new_course_form.validate_on_submit():
         if new_course_form.icon.data:
