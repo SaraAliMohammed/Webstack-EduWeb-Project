@@ -16,5 +16,92 @@
         </div>
     </div>
 </section>
-<!-- Additional sections can be added as needed -->
+
+<!-- Social Media Section -->
+<section class="bg-primary text-light p-5">
+    <div class="container">
+        <div class="d-md-flex justify-content-between align-items-center">
+            <h3 class="mb-3 text-center">Join Our Community</h3>
+            <nav class="navbar navbar-expand-lg navbar-dark">
+                <button class="navbar-toggler border" type="button" data-bs-toggle="collapse" data-bs-target="#socialbtn">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="socialbtn">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="btn btn-dark ms-5 button_width" href="https://github.com/SaraAliMohammed" target="_blank">
+                                <i class="bi-github" role="img"></i>
+                                GitHub
+                            </a>
+                        </li>
+                        <li>
+                            <a class="btn btn-dark ms-5 button_width" href="#EduWebFacebook" target="_blank">
+                                <i class="bi bi-facebook "></i>
+                                Facebook
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a type="button" class="btn btn-dark ms-5 button_width" href="#EduWebInstagram" target="_blank">
+                                <i class="bi bi-instagram"></i>
+                                Instagram
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="btn btn-dark ms-5 button_width" href="#EduWebTwitter.com/Pythonic88" target="_blank">
+                                <i class="bi bi-twitter"></i>
+                                Twitter
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="btn btn-dark ms-5 button_width" href="#EduWebTiktok" target="_blank">
+                                <i class="bi bi-tiktok"></i>
+                                TikTok
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section id="features" class="features-section bg-light">
+    <div class="container p-5">
+        <h3 class="text-center text-secondary">Key Features</h3>
+        <div class="row">
+            <!-- Feature 1: Browse and Filter Courses -->
+            <div class="col-md-4">
+                <img src="{{ url_for('static', filename='images/courses.jpg') }}" alt="Browse and Filter Courses" class="img-fluid feature-image">
+                <h4>Browse Courses</h4>
+                <p>As a learner, You can browse through different courses and view detailed descriptions for each course, and you can learn the most suitable one based on your interests and learning objectives.</p>
+            </div>
+            <!-- Feature 2: Create and Upload Course Materials -->
+            <div class="col-md-4">
+                <img src="{{ url_for('static', filename='images/instructor.jpg') }}" alt="Create and Upload Course Materials" class="img-fluid feature-image">
+                <h4>Create and Upload Course Materials</h4>
+                <p>As an instructor, you can create and upload course materials including lessons and videos so that you can share your knowledge and expertise with the learners and facilitate their learning process effectively.</p>
+            </div>
+            <!-- Feature 3: Show All Courses in User Profile -->
+            <div class="col-md-4">
+                <img src="{{ url_for('static', filename='images/user.jpg') }}" alt="Show All Courses in User Profile" class="img-fluid feature-image">
+                <h4>Show All Courses in User Profile</h4>
+                <p>As a registered user, I want to show through all my courses from my profile, so that I can easily find and update its material.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- About Section -->
+<section id="about" class="about-section bg-light">
+    <div class="container p-5">
+        <h3 class="text-center text-secondary mb-4">About EduWeb</h3>
+        <div class="row">
+            <div class="col-md-12">
+                <p class="lead">EduWeb is an educational website where you can explore and learn various courses based on your interests. Whether you're looking to enhance your skills in programming, language learning, or any other subject, EduWeb offers a diverse range of courses to suit your needs.</p>
+                <p class="mb-0">In addition to browsing courses, you can create an account on EduWeb to upload your own courses and share your knowledge with others. As an instructor, you have the opportunity to contribute to the platform's growing library of educational content and foster a collaborative learning environment.</p>
+            </div>
+        </div>
+    </div>
+</section>
 {% endblock %}

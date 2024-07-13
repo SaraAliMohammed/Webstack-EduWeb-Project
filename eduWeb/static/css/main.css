@@ -64,3 +64,13 @@ body::before {
     border-radius: 3px;
     margin-bottom: 20px;
 }
+
+.feature-image {
+    height: 300px;
+}
+
+.features-section p,
+.about-section p {
+    font-size: 1.25rem;
+    font-weight: 400;
+}
