@@ -37,11 +37,13 @@ def upload():
     url = url_for('main.uploaded_files', filename=image_name)
     return upload_success(url, filename=image_name)
 
-
 @main.route("/")
+def landing():
+    return render_template("index.html", title="EduWeb")
+
+
 @main.route("/home")
 def home():
-    
     lessons = Lesson.query.order_by(Lesson.date_posted.desc()).paginate(
         page=1, per_page=6
     )

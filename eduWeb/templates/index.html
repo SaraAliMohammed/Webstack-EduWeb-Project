@@ -1,0 +1,20 @@
+{% extends "layout.html" %}
+{% block content %}
+<section class="bg-dark text-light p-5 p-lg-0 pt-lg-5 text-center text-sm-start">
+    <div class="container">
+        <div class="d-sm-flex align-items-center justify-content-between">
+            <div>
+                <h1 class="mb-10">Welcome to EduWeb</h1>
+                <p class="lead my-4">
+                    EduWeb offers intuitive and easy-to-follow programming tutorials for beginners and experienced coders alike. Dive into our courses and start learning today!
+                </p>
+                <a class="btn btn-danger btn-lg border" href="{{ url_for('main.home') }}" target="_blank">
+                    Get Started
+                </a>
+            </div>
+            <img class="img-fluid w-50 d-none d-sm-block" src="{{url_for('static', filename='images/showcase.svg')}}" alt="">
+        </div>
+    </div>
+</section>
+<!-- Additional sections can be added as needed -->
+{% endblock %}

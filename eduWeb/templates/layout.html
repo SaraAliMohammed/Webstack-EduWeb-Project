@@ -3,7 +3,11 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	{% if title %}
+	<!-- Debug statements -->
+    {% if title and title=="EduWeb" %}
+        <meta http-equiv="refresh" content="5;url={{ url_for('main.home') }}">
+        <title>EduWeb</title>
+    {% elif title %}
 		<title>EduWeb - {{title}}</title>
 	{% else %}
 		<title>EduWeb</title>
