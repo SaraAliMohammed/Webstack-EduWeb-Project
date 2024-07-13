@@ -27,3 +27,16 @@ After installing the dependencies, you can verify that everything is set up corr
 Replace app.py with the filename of your main Flask application file.
 
 Following these steps should ensure that you have all the necessary dependencies installed on the new device to run your Flask app successfully. If you encounter any issues during the installation or execution process, you may need to troubleshoot further based on the error messages you receive.
+
+SECRET_KEY='972c87379d16a8a27665666e1cf17a35c44d39d4feddceda9d600c4d8b304436'
+SQLALCHEMY_DATABASE_URI='sqlite:///eduweb.db'
+EMAIL_USER=eduwebapp2@gmail.com
+EMAIL_PASS=dwew znsd lnbs vtpq
+
+
+from eduWeb import create_app, db
+from eduWeb.models import User, Lesson, Course
+app = create_app()
+app_ctx=app.app_context()
+app_ctx.push()
+Course.query.all()
