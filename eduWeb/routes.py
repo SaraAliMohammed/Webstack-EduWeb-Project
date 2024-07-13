@@ -7,6 +7,7 @@ import os
 from eduWeb.models import User, Lesson, Course
 from flask import render_template, url_for, flash, redirect, request, session, abort, send_from_directory
 from flask_ckeditor import upload_success, upload_fail
+from flask_mail import Message
 from eduWeb.forms import (
     NewCourseForm,
     NewLessonForm,
@@ -14,8 +15,10 @@ from eduWeb.forms import (
     LoginForm,
     UpdateProfileForm,
     LessonUpdateForm,
+    RequestResetForm,
+    ResetPasswordForm,
 )
-from eduWeb import app, db, bcrypt
+from eduWeb import app, db, bcrypt, mail
 from flask_login import login_user, current_user, logout_user, login_required
 from flask_modals import render_template_modal
 
@@ -62,7 +65,11 @@ def uploaded_files(filename):
 @app.route('/upload', methods=['POST'])
 def upload():
     f = request.files.get('upload')
-    extension = f.filename.split('.')[-1].lower()
+    extension = None
+    if f and f.filename:
+        extension = f.filename.split('.')[-1].lower()
+    else:
+        return upload_fail(message='No file uploaded!')
     if extension not in ['jpg', 'gif', 'png', 'jpeg']:
         return upload_fail(message='File extension not allowed!')
     random_hex = secrets.token_hex(8)
@@ -70,6 +77,20 @@ def upload():
     f.save(os.path.join(app.root_path, 'static/media', image_name))
     url = url_for('uploaded_files', filename=image_name)
     return upload_success(url, filename=image_name)
+
+
+def send_reset_email(user):
+    token = user.get_reset_token()
+    msg = Message(
+        "Pythonic App Password Reset Request",
+        sender="eduwebapp2@gmail.com",
+        recipients=[user.email],
+        body=f"""To reset your password, visit the following link:
+        {url_for('reset_password', token=token, _external=True)}
+        
+        if you did not make this request, please ignore this email.""",
+    )
+    mail.send(msg)
 
 
 @app.route("/")
@@ -335,3 +356,40 @@ def author(username):
         .paginate(page=page, per_page=6)
     )
     return render_template('author.html', lessons=lessons, user=user)
+
+
+@app.route("/reset_password", methods=["GET", "POST"])
+def reset_request():
+    if current_user.is_authenticated:
+        return redirect(url_for("home"))
+    form = RequestResetForm()
+    if form.validate_on_submit():
+        user = User.query.filter_by(email=form.email.data).first()
+        if user:
+            send_reset_email(user)
+        flash(
+            "If this account exists, you will receive an email with instructions",
+            "info",
+        )
+        return redirect(url_for("login"))
+    return render_template("reset_request.html", title="Reset Password", form=form)
+
+
+@app.route("/reset_password/<token>", methods=["GET", "POST"])
+def reset_password(token):
+    if current_user.is_authenticated:
+        return redirect(url_for("home"))
+    user = User.verify_reset_token(token)
+    if not user:
+        flash("The token is invalid or expired", "warning")
+        return redirect(url_for("reset_request"))
+    form = ResetPasswordForm()
+    if form.validate_on_submit():
+        hashed_password = bcrypt.generate_password_hash(form.password.data).decode(
+            "utf-8"
+        )
+        user.password = hashed_password
+        db.session.commit()
+        flash(f"Your password has been updated. You can now log in", "success")
+        return redirect(url_for("login"))
+    return render_template("reset_password.html", title="Reset Password", form=form)

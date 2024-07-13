@@ -43,6 +43,8 @@ class RegistrationForm(FlaskForm):
             raise ValidationError(
                 "Username already exists! Please chosse a different one"
             )
+
+
     def validate_email(self, email):
         ''' Validates unique email'''
         user = User.query.filter_by(email=email.data).first()
@@ -134,5 +136,29 @@ class NewCourseForm(FlaskForm):
 
 
 class LessonUpdateForm(NewLessonForm):
+    '''Form for the update lesson'''
     thumbnail = FileField("Thumbnail", validators=[FileAllowed(["jpg", "png"])])
     submit = SubmitField("Update")
+
+
+class RequestResetForm(FlaskForm):
+    '''Form for the request reset password'''
+    email = StringField('Email', validators=[DataRequired(), Email()])
+    submit = SubmitField('Request Password Reset')
+
+
+class ResetPasswordForm(FlaskForm):
+    '''Form for the reset password'''
+    password = PasswordField(
+        "Password",
+        validators=[
+            DataRequired(),
+            Regexp(
+                r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&_])[A-Za-z\d@$!%*?&_]{8,32}$"
+            ),
+        ],
+    )
+    confirm_password = PasswordField(
+        "Confirm Password", validators=[DataRequired(), EqualTo("password")]
+    )
+    submit = SubmitField("Reset Password")

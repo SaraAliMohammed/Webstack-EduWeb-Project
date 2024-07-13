@@ -25,8 +25,31 @@ class User(db.Model, UserMixin):
 	bio = db.Column(db.Text, nullable=True)
 	lessons = db.relationship("Lesson", backref='author', lazy=True)
 
+	def __init__(self, **kwargs):
+		''' Intialization method'''
+		for key, value in kwargs.items():
+			setattr(self, key, value)
+
+
+	def get_reset_token(self):
+		'''Gets a reset token'''
+		s = Serializer(app.config['SECRET_KEY'], salt='pw-reset')
+		return s.dumps({'user_id': self.id})
+
+	
+	@staticmethod
+	def verify_reset_token(token, age=3600):
+		'''Verifies the reset token'''
+		s = Serializer(app.config['SECRET_KEY'], salt='pw-reset')
+		try:
+			user_id = s.loads(token, max_age=age)['user_id']
+		except Exception:
+			return None
+		return User.query.get(user_id)
+
+
 	def __repr__(self):
-		"""String representation of User object"""
+		'''String representation of User object'''
 		return f"USER('{self.fname}', '{self.lname}', '{self.username}', '{self.email}', '{self.image_file}')"
 
 
@@ -41,8 +64,13 @@ class Lesson(db.Model):
 	user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 	course_id = db.Column(db.Integer, db.ForeignKey('course.id'), nullable=False)
 
+	def __init__(self, **kwargs):
+		''' Intialization method'''
+		for key, value in kwargs.items():
+			setattr(self, key, value)
+
 	def __repr__(self):
-		"""String representation of Lesson object"""
+		'''String representation of Lesson object'''
 		return f"LESSON('{self.title}', '{self.date_posted}')"
 
 
@@ -53,6 +81,10 @@ class Course(db.Model):
 	description = db.Column(db.String(150), nullable=False)
 	icon = db.Column(db.String(20), nullable=False, default="default_icon.jpg")
 	lessons = db.relationship("Lesson", backref="course_name", lazy=True)
+
+	def __init__(self, **kwargs):
+		for key, value in kwargs.items():
+			setattr(self, key, value)
 
 	def __repr__(self):
 		"""String representation of Course object"""
