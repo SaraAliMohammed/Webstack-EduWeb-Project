@@ -2,9 +2,10 @@
 Holds eduWeb Classes	
 """
 from datetime import datetime
-from eduWeb import db, login_manager, app
+from eduWeb import db, login_manager
 from flask_login import UserMixin
 from itsdangerous import URLSafeTimedSerializer as Serializer
+from flask import current_app
 
 
 @login_manager.user_loader
@@ -33,14 +34,14 @@ class User(db.Model, UserMixin):
 
 	def get_reset_token(self):
 		'''Gets a reset token'''
-		s = Serializer(app.config['SECRET_KEY'], salt='pw-reset')
+		s = Serializer(current_app.config['SECRET_KEY'], salt='pw-reset')
 		return s.dumps({'user_id': self.id})
 
 	
 	@staticmethod
 	def verify_reset_token(token, age=3600):
 		'''Verifies the reset token'''
-		s = Serializer(app.config['SECRET_KEY'], salt='pw-reset')
+		s = Serializer(current_app.config['SECRET_KEY'], salt='pw-reset')
 		try:
 			user_id = s.loads(token, max_age=age)['user_id']
 		except Exception:

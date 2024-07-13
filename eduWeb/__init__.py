@@ -10,26 +10,39 @@ from flask_migrate import Migrate
 from flask_ckeditor import CKEditor
 from flask_modals import Modal
 from flask_mail import Mail
+from eduWeb.config import Config
 
 
-app = Flask(__name__)
-app.config['SECRET_KEY'] = '972c87379d16a8a27665666e1cf17a35c44d39d4feddceda9d600c4d8b304436'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///eduweb.db'
-app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = True
-app.config['CKEDITOR_ENABLE_CODESNIPPET'] = True
-app.config['CKEDITOR_FILE_UPLOADER'] = 'upload'
-db = SQLAlchemy(app)
-bcrypt = Bcrypt(app)
-login_manager = LoginManager(app)
-migrate = Migrate(app, db)
-ckeditor = CKEditor(app)
-modal = Modal(app)
-login_manager.login_view = "login"
+db = SQLAlchemy()
+bcrypt = Bcrypt()
+migrate = Migrate(db)
+login_manager = LoginManager()
+ckeditor = CKEditor()
+modal = Modal()
+login_manager.login_view = "users.login"
 login_manager.login_message_category = "info"
-app.config["MAIL_SERVER"] = "smtp.googlemail.com"
-app.config["MAIL_PORT"] = 587
-app.config["MAIL_USE_TLS"] = True
-app.config["MAIL_USERNAME"] = os.environ.get("EMAIL_USER")
-app.config["MAIL_PASSWORD"] = os.environ.get("EMAIL_PASS")
-mail = Mail(app)
-from eduWeb import routes
+mail = Mail()
+
+
+def create_app(config_calss=Config):
+	app = Flask(__name__)
+	app.config.from_object(Config)
+
+	db.init_app(app)
+	bcrypt.init_app(app)
+	login_manager.init_app(app)
+	ckeditor.init_app(app)
+	modal.init_app(app)
+	mail.init_app(app)
+
+	from eduWeb.main.routes import main
+	from eduWeb.users.routes import users
+	from eduWeb.lessons.routes import lessons
+	from eduWeb.courses.routes import courses_bp
+
+	app.register_blueprint(main)
+	app.register_blueprint(users)
+	app.register_blueprint(lessons)
+	app.register_blueprint(courses_bp)
+
+	return app

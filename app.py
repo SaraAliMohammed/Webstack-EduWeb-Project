@@ -1,8 +1,9 @@
 """
 starts a Flask web application
 """
-from eduWeb import app
+from eduWeb import create_app
 
+app = create_app()
 
 if __name__ == "__main__":
 	app.run(debug=True)

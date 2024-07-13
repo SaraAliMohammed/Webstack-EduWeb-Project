@@ -24,11 +24,11 @@
                     <div class="card-body d-flex flex-column">
                         <h5 class="card-title">
                             <a class="text-decoration-none text-dark"
-                                href="{{url_for('lesson', lesson_slug=lesson.slug, course=lesson.course_name.title)}}">{{lesson.title}}</a>
+                                href="{{url_for('lessons.lesson', lesson_slug=lesson.slug, course=lesson.course_name.title)}}">{{lesson.title}}</a>
                         </h5>
                         <span><img class="article-img rounded-circle"
                                 src="{{url_for('static', filename='user_pics/'+lesson.author.image_file)}}" alt="">By:
-                                <a href="{{url_for('author', username=lesson.author.username)}}"
+                                <a href="{{url_for('users.author', username=lesson.author.username)}}"
                                     class="link">{{lesson.author.username}}</a></span>
                         <span class="text-muted">On: {{lesson.date_posted.strftime('%Y-%m-%d')}}</span>
 
@@ -44,12 +44,12 @@
                     {% if page_num %}
                     {% if lessons.page == page_num %}
                     <li class="page-item active">
-                        <a href="{{url_for('course', course_title=course.title, page=page_num)}}"
+                        <a href="{{url_for('courses.course', course_title=course.title, page=page_num)}}"
                             class="page-link">{{page_num}}</a>
                     </li>
                     {%else%}
                     <li class="page-item">
-                        <a href="{{url_for('course', course_title=course.title, page=page_num)}}"
+                        <a href="{{url_for('courses.course', course_title=course.title, page=page_num)}}"
                             class="page-link">{{page_num}}</a>
                     </li>
                     {%endif%}

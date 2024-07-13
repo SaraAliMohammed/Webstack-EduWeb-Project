@@ -7,7 +7,7 @@
         <div class="row">
             {% for course in courses.items %}
             <div class="col-sm-12 col-md-6 col-lg-4 p-3 d-flex align-items-stretch">
-                <a href="{{url_for('course', course_title=course.title)}}" class="text-decoration-none">
+                <a href="{{url_for('courses.course', course_title=course.title)}}" class="text-decoration-none">
                     <div class="card bg-dark text-light h-100">
                         <div class="card-body text-center">
                             <img src="{{url_for('static', filename='course_icons/'+course.icon)}}" alt=""
@@ -28,11 +28,11 @@
                     {% if page_num %}
                     {% if courses.page == page_num %}
                     <li class="page-item active">
-                        <a href="{{url_for('courses', page=page_num)}}" class="page-link">{{page_num}}</a>
+                        <a href="{{url_for('courses.courses', page=page_num)}}" class="page-link">{{page_num}}</a>
                     </li>
                     {%else%}
                     <li class="page-item">
-                        <a href="{{url_for('courses', page=page_num)}}" class="page-link">{{page_num}}</a>
+                        <a href="{{url_for('courses.courses', page=page_num)}}" class="page-link">{{page_num}}</a>
                     </li>
                     {%endif%}
                     {% else %}
